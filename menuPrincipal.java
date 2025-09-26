@@ -61,10 +61,10 @@ public class menuPrincipal {
 
 
         ProductoCafeteria prod1 = new ProductoCafeteria("Café Americano", 35.00, "Bebidas");
-        menuCafeteria.put(prod1.getID(), prod1);
+        menuCafeteria.put(prod1.getId(), prod1);
 
         ProductoCafeteria prod2 = new ProductoCafeteria("Panini de Pavo", 60.0, "Comida");
-        menuCafeteria.put(prod2.getID(), prod2);
+        menuCafeteria.put(prod2.getId(), prod2);
     }
 
 

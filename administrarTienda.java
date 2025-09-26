@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class administrarTienda{
 	private Map<Integer, Libro> catalogoLibros = new HashMap<>();
-	public Map<Integer, ProductoCafeteria> menuCafeteria;
+	public Map<Integer, ProductoCafeteria> menuCafeteria = new HashMap<>();
 	Scanner sc = new Scanner(System.in);
 
 	public void menuAdmin(){
@@ -14,9 +14,10 @@ public class administrarTienda{
 				+"\n4)Cambiar información de libro");
 			System.out.println("5)Agregar Productos de Cafetería\n6)Eliminar Producto"
 				+ "\n7)Ver Menú de Cafetería\n8)Cambiar Producto");
-			System.out.println("8)Salir");
+			System.out.println("9)Salir");
 			System.out.print("Escoja la acción a modificar: ");
-			opc = sc.nextInt();
+			opcEmpleado = sc.nextInt();
+			sc.nextLine();
 
 			switch(opcEmpleado){
 				case 1 -> anidarLibro();
@@ -25,8 +26,8 @@ public class administrarTienda{
 				case 4 -> editarLibro();
 				case 5 -> anidarProducto();
 				case 6 -> eliminarProducto();
-				case 7 -> editarProducto();
-				case 8 -> verProductos();
+				case 7 -> verProductos();
+				case 8 -> editarProducto();
 				case 9 -> System.out.println("Saliendo.");
 				default -> System.out.println("Error...");
 			}
@@ -36,38 +37,21 @@ public class administrarTienda{
 	public void anidarLibro(){
 		System.out.print("Ingrese el nombre del libro: ");
 		String nombreLibro = sc.nextLine();
-
+	
 		System.out.print("Ingrese el autor: ");
 		String autorLibro = sc.nextLine();
 
 		System.out.print("Ingrese el género del libro: ");
 		String generoLibro = sc.nextLine();
 
-		double precioLibro;
-		do{
-			System.out.print("Ingrese el precio del libro: ");
-			precioLibro = sc.nextDouble();
-
-			if(precioLibro <= 0){
-				System.out.println("Precio no válido. Inserte otro.");
-			}
-		} while(precioLibro <= 0);
-
-
-		int idLibro;
-		do{
-			System.out.println("Ingrese el ID del libro: ");
-			idLibro = sc.nextInt();
-			if(catalogoLibros.containsKey(idLibro)){
-				System.out.println("ID existente, ingrese otro.");
-			}
-		} while(catalogoLibros.containsKey(idLibro));
+		System.out.print("Ingrese el precio del libro: ");
+		double precioLibro = sc.nextDouble();
+		sc.nextLine();
 
 		Libro libroNuevo = new Libro(nombreLibro, autorLibro, generoLibro, precioLibro, true);
-
-		catalogoLibros.put(idLibro, libroNuevo);
-		System.out.println("Libro añadido correctamente.");
+		catalogoLibros.put(libroNuevo.getId(), libroNuevo);
 	}
+
 
 	public void retirarLibro(){
 		if(catalogoLibros.isEmpty()){
@@ -79,10 +63,10 @@ public class administrarTienda{
 		do{
 			System.out.print("Ingrese el ID del libro a retirar: ");
 			idBorrar = sc.nextInt();
-			if(catalogoLibros.containsKey(idBorrar)){
-				System.out.println("Clave existente.");
+			if (!catalogoLibros.containsKey(idBorrar)) {
+        		System.out.println("No existe un libro con ese ID.");
 			}
-		} while(!catalogoLibros.containsKey());
+		} while(!catalogoLibros.containsKey(idBorrar));
 
 		catalogoLibros.remove(idBorrar);
 		System.out.println("Libro retirado exitosamente.");
@@ -95,7 +79,7 @@ public class administrarTienda{
 		}
 
 		System.out.println("Lista de Libros: ");
-		for(Libro libro : catalogoLibros){
+		for(Libro libro : catalogoLibros.values()){
 			System.out.println(libro.toString());
 		}
 	}
@@ -111,10 +95,10 @@ public class administrarTienda{
 			System.out.print("Ingrese la clave del libro a editar: ");
 			idBuscar = sc.nextInt();
 
-			if(catalogoLibros.containsKey()){
-				System.out.println("Libro existente.");
+			if (!catalogoLibros.containsKey(idBuscar)) {
+        		System.out.println("No existe un libro con ese ID.");
 			}
-		} while(!catalogoLibros.containsKey());
+		} while(!catalogoLibros.containsKey(idBuscar));
 
 		Libro libroEditar = catalogoLibros.get(idBuscar);
 
@@ -123,7 +107,8 @@ public class administrarTienda{
 			System.out.println("1)Titulo\n2)Autor\n3)Genero"
 				+"\n4)Precio\n5)Salir");
 			System.out.print("¿Qué desea editar?: ");
-			opcEditar = sc.nextInt;
+			opcEditar = sc.nextInt();
+			sc.nextLine();
 			switch(opcEditar){
 				case 1 -> {
 					System.out.print("Ingrese el nuevo título: ");
@@ -155,7 +140,7 @@ public class administrarTienda{
 					libroEditar.setPrecio(nuevoPrecio);
 				}
 				case 5 -> System.out.println("Saliendo de la edición de libros...");
-				default -> System.our.println("Error...");
+				default -> System.out.println("Error...");
 			}
 		} while(opcEditar != 5);
 	}
@@ -167,34 +152,25 @@ public class administrarTienda{
 		System.out.print("Ingrese el nombre del producto: ");
 		String cafeProducto = sc.nextLine();
 
-		System.out.print("Ingrese el tipo de producto: ");
+		System.out.print("Ingrese la categoría del producto: ");
 		String tipoProducto = sc.nextLine();
 
 		double precioProducto;
 		do{
 			System.out.print("Ingrese el precio del producto: ");
 			precioProducto = sc.nextDouble();
+			sc.nextLine();
 
 			if(precioProducto <= 0){
 				System.out.println("Precio no válido. Inserte otro.");
 			}
-		} while(precioLibro <= 0);
+		} while(precioProducto <= 0);
 
-
-		int idProducto;
-		do{
-			System.out.println("Ingrese el ID del producto: ");
-			idProducto= sc.nextInt();
-			if(menuCafeteria.containsKey(idProducto)){
-				System.out.println("ID existente, ingrese otro.");
-			}
-		} while(menuCafeteria.containsKey(idProducto));
-
-		ProductoCafeteria productoNuevo = new productoNuevo(cafeProducto, precioProducto, cafeProducto);
-
-		menuCafeteria.put(idProducto, productoNuevo);
-		System.out.println("Libro añadido correctamente.");
+		ProductoCafeteria productoNuevo = new ProductoCafeteria(cafeProducto, precioProducto, tipoProducto);
+		
+		menuCafeteria.put(productoNuevo.getId(), productoNuevo);
 	}
+
 
 	public void eliminarProducto(){
 		if(menuCafeteria.isEmpty()){
@@ -206,13 +182,13 @@ public class administrarTienda{
 		do{
 			System.out.print("Ingrese el ID del producto a retirar: ");
 			idBorrar = sc.nextInt();
-			if(menuCafeteria.containsKey(idBorrar)){
-				System.out.println("Clave existente.");
+			if (!menuCafeteria.containsKey(idBorrar)) {
+        System.out.println("No existe un producto con ese ID");
 			}
-		} while(!menuCafeteria.containsKey());
+		} while(!menuCafeteria.containsKey(idBorrar));
 
 		menuCafeteria.remove(idBorrar);
-		System.out.println("Alimento retirado exitosamente.");
+		System.out.println("Producto retirado exitosamente.");
 	}
 
 	public void verProductos(){
@@ -222,62 +198,62 @@ public class administrarTienda{
 		}
 
 		System.out.println("Lista de Productos de Cafetería: ");
-		for(ProductoCafeteria alimento : menuCafeteria){
+		for(ProductoCafeteria alimento : menuCafeteria.values()){
 			System.out.println(alimento.toString());
 		}
 	}
 
 	public void editarProducto(){
-		if(menuCafeteria.isEmpty()){
-			System.out.println("Sin elementos en cafetería.");
-			return;
-		}
+		System.out.print("Ingrese el ID del producto a editar: ");
+    int idBuscar = sc.nextInt();
+    sc.nextLine();
 
-		int idBuscar;
-		do{
-			System.out.print("Ingrese la clave del libro a editar: ");
-			idBuscar = sc.nextInt();
+    if (menuCafeteria.containsKey(idBuscar)) {
+        ProductoCafeteria productoEditar = menuCafeteria.get(idBuscar);
+        int opcEditar;
 
-			if(menuCafeteria.containsKey()){
-				System.out.println("Libro existente.");
-			}
-		} while(!catalogoLibros.containsKey(idBuscar));
+        do {
+            System.out.println("¿Qué desea editar?:");
+            System.out.println("1. Nombre");
+            System.out.println("2. Categoría");
+            System.out.println("3. Precio");
+            System.out.println("4. Salir");
+            System.out.print("Opción: ");
 
-		ProductoCafeteria alimentoEditar = menuCafeteria.get(idBuscar);
+            opcEditar = sc.nextInt();
+            sc.nextLine();
 
-		int opcEditar;
-		do{
-			System.out.println("1)Producto\n2)Precio\n3)Tipo\n4)Salir");
-			System.out.print("¿Qué desea editar?: ");
-			opcEditar = sc.nextInt;
-			switch(opcEditar){
-				case 1 -> {
-					System.out.print("Ingrese el nuevo producto ");
-					String nuevoNombre =  sc.nextLine();
-					alimentoEditar.setTitulo(nuevoNombre);
-				}
-				case 2 -> {
-					System.out.println("Ingrese el nuevo precio: ");
-					double nuevoPrecio;
+            switch (opcEditar) {
+                case 1:
+                    System.out.print("Ingrese el nuevo nombre: ");
+                    String nuevoNombre = sc.nextLine();
+                    productoEditar.setProducto(nuevoNombre);
+                    break;
+                case 2:
+                    System.out.print("Ingrese la nueva categoría: ");
+                    String nuevaCategoria = sc.nextLine();
+                    productoEditar.setCategoria(nuevaCategoria);
+                    break;
+                case 3:
+                    System.out.print("Ingrese el nuevo precio: ");
+                    double nuevoPrecio = sc.nextDouble();
+                    sc.nextLine();
+                    if (nuevoPrecio > 0) {
+                        productoEditar.setPrecio(nuevoPrecio);
+                    } else {
+                        System.out.println("El precio debe ser mayor que 0.");
+                    }
+                    break;
+                case 4:
+                    System.out.println("Producto editado");
+                    break;
+                default:
+                    System.out.println("Opción no válida.");
+            }
+        } while (opcEditar != 4);
 
-					do{
-						System.out.print("Ingrese el precio del producto: ");
-						nuevoPrecio =  sc.nextDouble();
-
-						if(nuevoPrecio <= 0){
-							System.out.println("Precio no válido. Inserte otro.");
-						}
-					} while(nuevoPrecio <= 0);
-					alimentoEditar.setPrecio(nuevoPrecio);
-				}
-				case 3 -> {
-					System.out.print("Ingrese el tipo de Producto: ");
-					String nuevoTipo =  sc.nextLine();
-					alimentoEditar.setCategoria(nuevoTipo);
-				}
-				case 4 -> System.out.println("Saliendo de la edición de libros...");
-				default -> System.our.println("Error...");
-			}
-		} while(opcEditar != 4);
-	}
+    } else {
+        System.out.println("No existe un producto con ese ID.");
+    }
+}
 }

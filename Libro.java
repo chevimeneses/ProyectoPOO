@@ -18,6 +18,7 @@ public class Libro{
         this.titulo = titulo;
         this.autor = autor;
         this.genero = genero;
+        this.id = contadorIds++;
         this.precio = precio;
         this.estado = estado;  //Usa el valor del parámetro
         this.devolucion = "";
@@ -29,15 +30,12 @@ public class Libro{
         this.titulo = titulo;
         this.autor = autor;
         this.genero = genero;
+        this.id = contadorIds++;
         this.precio = 149.99;  //Por defecto $149.99
         this.estado = true;  //Por defecto disponible
         this.devolucion = "";
     }
     
-    //Método para aumentar el contador
-    public static void incrementarId(){
-        contadorIds++;
-    }
 
         //Getters (para ver la información)
     
@@ -65,7 +63,7 @@ public class Libro{
             return estado;
         }
 
-        public String devolucion(){
+        public String getdevolucion(){
             return devolucion;
         }
     
@@ -88,6 +86,10 @@ public class Libro{
 
     public void setEstado(boolean estado){
         this.estado = estado;
+    }
+
+    public void setDevolucion(String devolucion){
+        this.devolucion = devolucion;
     }
 
     //Métodos especiales del negocio

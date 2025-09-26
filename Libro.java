@@ -63,7 +63,7 @@ public class Libro{
             return estado;
         }
 
-        public String getdevolucion(){
+        public String getDevolucion(){
             return devolucion;
         }
     
@@ -108,9 +108,6 @@ public class Libro{
         return estado;
     }
 
-    public String devolucion(){
-        return devolucion;
-    }
         
     //Para mostrar la información del libro
     @Override

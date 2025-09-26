@@ -3,9 +3,10 @@ public class ProductoCafeteria{
     private int id;
     private double precio;
     private String categoria;
+    private static int contadorIds = 1;  //Declarar el contador de IDs
     
     //Constructores
-    public ProductoCafeteria(String producto, int id, double precio, String categoria){
+    public ProductoCafeteria(String producto, double precio, String categoria){
         this.producto = producto;
         this.id = contadorIds++;
         this.precio = precio;
@@ -22,12 +23,8 @@ public class ProductoCafeteria{
         this.producto = producto;
     }
     
-    public int getID(){
+    public int getId(){
         return id;
-    }
-    
-    public void setID(int id){
-        this.id = id;
     }
     
     public double getPrecio(){
@@ -48,8 +45,8 @@ public class ProductoCafeteria{
     
     public String toString(){
         return "[Producto: " + producto + 
-        ", ID: " + id + 
-        ", Precio: " + precio + 
-        ", Categoría: " + "]";
+        " | ID: " + id + 
+        " | Precio: " + precio + 
+        " | Categoría: " + categoria;
     }
 }

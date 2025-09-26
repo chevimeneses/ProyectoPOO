@@ -51,9 +51,9 @@ public class Visita {
 	* @param libro El libro a comprar
 	*/
 	public void agregarLibroComprado(Libro libro) {
-        	librosComprados.add(libro); 
-        	libro.marcarNoDisponible();  
-        	System.out.println("Libro comprado: " + libro.getTitulo());  
+		librosComprados.add(libro); 
+		libro.marcarNoDisponible();  
+		System.out.println("Libro comprado: " + libro.getTitulo());  
 	}
     
 	/**
@@ -61,8 +61,8 @@ public class Visita {
 	* @param producto El producto de cafetería consumido
 	*/
 	public void agregarProducto(ProductoCafeteria producto) {
-    productosConsumidos.add(producto);  // AÑADIR el producto a la colección de productos consumidos
-    System.out.println("Producto consumido: " + producto.getProducto());
+		productosConsumidos.add(producto);  // AÑADIR el producto a la colección de productos consumidos
+		System.out.println("Producto consumido: " + producto.getProducto());
 	}
     
 	// MÉTODOS PARA CALCULAR Y GESTIONAR LA VISITA
@@ -72,16 +72,16 @@ public class Visita {
 	* DEMUESTRA ITERACIÓN SOBRE COLECCIONES
 	*/
 	public void calcularTotal() {
-    this.total = 0.0;  // Reiniciar el total a 0 antes de calcular
-    for (Libro libro : librosComprados) {  // ITERAR sobre la colección de libros COMPRADOS
-      total += libro.getPrecio();  // SUMAR el precio de cada libro comprado al total
-    }
+    	this.total = 0.0;  // Reiniciar el total a 0 antes de calcular
+    	for (Libro libro : librosComprados) {  // ITERAR sobre la colección de libros COMPRADOS
+			total += libro.getPrecio();  // SUMAR el precio de cada libro comprado al total
+	    }
     for (ProductoCafeteria producto : productosConsumidos) {  // ITERAR sobre la colección de productos CONSUMIDOS
-			total += producto.getPrecio();  // SUMAR el precio de cada producto al total 
+		total += producto.getPrecio();  // SUMAR el precio de cada producto al total 
     }
-		for (Libro libro : librosRentados) {  // ITERAR sobre la colección de libros RENTADOS
-			double costoRenta = libro.getPrecio() * 0.10;  // Calcular costo de renta (10% del precio del libro)
-			total += costoRenta;  // SUMAR el costo de renta al total
+	for (Libro libro : librosRentados) {  // ITERAR sobre la colección de libros RENTADOS
+		double costoRenta = libro.getPrecio() * 0.10;  // Calcular costo de renta (10% del precio del libro)
+		total += costoRenta;  // SUMAR el costo de renta al total
     }
 		System.out.println("Total calculado: $" + total);
 	}
@@ -91,18 +91,18 @@ public class Visita {
 	* Según la regla: 1 punto por cada $50 gastados
 	*/
 	public void aplicarPuntosCliente() {  // El cliente gana puntos basado en el total gastado
-    cliente.ganarPuntos(total);
-    System.out.println("Puntos aplicados al cliente: " + (int)(total / 50) + " puntos");
+	    cliente.ganarPuntos(total);
+    	System.out.println("Puntos aplicados al cliente: " + (int)(total / 50) + " puntos");
 	}
     
 	/**
 	* Finaliza la visita calculando totales y aplicando puntos
 	*/
 	public void finalizarVisita() {
-    calcularTotal();  // Paso 1: Calcular el total de la visita
-    aplicarPuntosCliente();  // Paso 2: Aplicar los puntos ganados al cliente
-    System.out.println("Visita #" + idVisita + " finalizada. Total: $" + total);
-  }
+    	calcularTotal();  // Paso 1: Calcular el total de la visita
+    	aplicarPuntosCliente();  // Paso 2: Aplicar los puntos ganados al cliente
+    	System.out.println("Visita #" + idVisita + " finalizada. Total: $" + total);
+  	}
     
 	// GETTERS (para acceder a la información)
     
@@ -154,8 +154,8 @@ public class Visita {
     
 	@Override
 	public String toString() {
-    return "Visita #" + idVisita + 
-      " | Cliente: " + cliente.getNombre() + 
+    	return "Visita #" + idVisita + 
+		    " | Cliente: " + cliente.getNombre() + 
 			" | Fecha: " + fecha + 
 			" | Total: $" + total +
 			" | Rentados: " + getCantidadLibrosRentados() +
@@ -170,17 +170,17 @@ public class Visita {
 	* DEMUESTRA ITERACIÓN SOBRE MULTIPLES COLECCIONES
 	*/
 	public void mostrarDetalles() {
-    System.out.println("=== DETALLES DE VISITA #" + idVisita + " ===");
-    System.out.println("Cliente: " + cliente.getNombre());
-    System.out.println("Fecha: " + fecha);
-    System.out.println("Total: $" + total);
-    System.out.println("\n--- Libros Rentados ---");
-    if (librosRentados.isEmpty()) {
+    	System.out.println("=== DETALLES DE VISITA #" + idVisita + " ===");
+    	System.out.println("Cliente: " + cliente.getNombre());
+    	System.out.println("Fecha: " + fecha);
+    	System.out.println("Total: $" + total);
+    	System.out.println("\n--- Libros Rentados ---");
+    	if (librosRentados.isEmpty()) {
 			System.out.println("No hay libros rentados");
 		} else {
 			for (Libro libro : librosRentados) {  // ITERAR sobre la colección de libros rentados
 				System.out.println("• " + libro.getTitulo() + " - $" + libro.getPrecio());
-      }
+     		}
 		}
         
 		System.out.println("\n--- Libros Comprados ---");

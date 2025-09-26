@@ -51,10 +51,20 @@ public class menuPrincipal {
     }
 
 
-    public static void productosIniciales() {
+        public static void productosIniciales() {
 
         Libro libro1 = new Libro("Cien años de soledad", "Gabriel García Márquez", "Novela");
-        catalogoLibros.put(libro1.getId(), libro1);
+        catalogoLibros.put(libro1.getId(), libro1); 
+
+        Libro libro2 = new Libro("1984", "George Orwell", "Ciencia Ficción");
+        catalogoLibros.put(libro2.getId(), libro2);
+
+
+        ProductoCafeteria prod1 = new ProductoCafeteria("Café Americano", 35.00, "Bebidas");
+        menuCafeteria.put(prod1.getID(), prod1);
+
+        ProductoCafeteria prod2 = new ProductoCafeteria("Panini de Pavo", 60.0, "Comida");
+        menuCafeteria.put(prod2.getID(), prod2);
     }
 
 

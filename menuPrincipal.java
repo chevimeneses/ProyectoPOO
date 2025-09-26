@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.Scanner;
 
 public class menuPrincipal {
 
@@ -10,10 +11,12 @@ public class menuPrincipal {
 
     private static List<Visita> Visitas = new ArrayList<>();
 
-    private static Scanner scanner = new Scanner(System.in);
+    private static Scanner escaner = new Scanner(System.in);
 
 
     public static void main(String[] args) {
+
+        productosIniciales();
 
         while (true) {
             System.out.println("BIENVENIDO");
@@ -22,14 +25,14 @@ public class menuPrincipal {
             System.out.println("3. Salir");
             System.out.print("Seleccione una opción: ");
 
-            if (!scanner.hasNextInt()) {
+            if (!escaner.hasNextInt()) {
             System.out.println("Ingrese un número válido");
-            scanner.nextLine();
+            escaner.nextLine();
             continue;
         }
         
-        int opcion = scanner.nextInt();
-        scanner.nextLine();
+        int opcion = escaner.nextInt();
+        escaner.nextLine();
 
             switch (opcion) {
                 case 1:
@@ -47,11 +50,46 @@ public class menuPrincipal {
         }
     }
 
-    public static void menuCliente() {
-        System.out.println("\n[MENÚ DE CLIENTE]");
+
+    public static void InventarioInicial() {
+
+        Libro libro1 = new Libro("Cien años de soledad", "Gabriel García Márquez", "Novela");
+        catalogoLibros.put(libro1.getId(), libro1);
+        
+        System.out.println("Inventario de la tienda inicializado");
     }
 
-    public static void menuEmpleado() {
-        System.out.println("\n[MENÚ DE EMPLEADO]");
+
+    public static void menuCliente() {
+        System.out.println("\nMENÚ DE CLIENTES");
+        System.out.print("Por favor, ingrese su ID de cliente (o escriba '0' para registrarse): ");
+
+        if (!escaner.hasNextInt()) {
+            System.out.println("El ID debe ser un número");
+            escaner.nextLine();
+            return;
+        }
+        
+        int idCliente = escaner.nextInt();
+        escaner.nextLine();
+
+        if (idCliente == 0) {
+            registrarNuevoCliente();
+            return;
+        }
+
+        if (listaClientes.containsKey(idCliente)) {
+            Cliente clienteActual = listaClientes.get(idCliente);
+            System.out.println("Bienvenido de nuevo, " + clienteActual.getNombre());
+            iniciarVisita(clienteActual);
+        } else {
+            System.out.println("Cliente no encontrado. Haz un nuevo registro");
+        }
+    }
+
+
+
+    public static void administrarTienda() {
+        System.out.println("\nMENÚ DE EMPLEADOS");
     }
 }

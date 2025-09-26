@@ -5,7 +5,7 @@ public class ProductoCafeteria{
     private String categoria;
     
     //Constructores
-    public void ProductoCafeteria(String producto, int id, double precio, String categoria){
+    public ProductoCafeteria(String producto, int id, double precio, String categoria){
         this.producto = producto;
         this.id = id;
         this.precio = precio;

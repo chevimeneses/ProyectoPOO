@@ -51,7 +51,7 @@ public class menuPrincipal {
     }
 
 
-    public static void InventarioInicial() {
+    public static void productosIniciales() {
 
         Libro libro1 = new Libro("Cien años de soledad", "Gabriel García Márquez", "Novela");
         catalogoLibros.put(libro1.getId(), libro1);

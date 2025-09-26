@@ -14,7 +14,7 @@ public class Libro{
     private static int contadorIds = 1;
     
     //Constructor completo para registrar un nuevo libro
-    public Libro(String titulo, String autor, String genero, int id, double precio, boolean estado){
+    public Libro(String titulo, String autor, String genero, double precio, boolean estado){
         this.titulo = titulo;
         this.autor = autor;
         this.genero = genero;
@@ -113,15 +113,20 @@ public class Libro{
     }
         
     //Para mostrar la información del libro
-    public String toString(){
+    @Override
+    public String toString() {
         String disponibilidad = estado ? "Disponible" : "No disponible";
-            return "Libro #" + id + ": " + titulo +
-                " | Autor: " + autor + 
-                " | Género: " + genero + 
-                " | Precio: $" + precio +
-                " | Estado: "+ disponibilidad +
-                if(estado == false && devolucion.isEmpty() == true){
-                    System.out.println("| Fecha de devolucion: " + devolucion);
-                };
+        
+        String infoLibro = "Libro #" + id + ": " + titulo +
+            " | Autor: " + autor +
+            " | Género: " + genero +
+            " | Precio: $" + precio +
+            " | Estado: " + disponibilidad;
+
+    if (!estado && !devolucion.isEmpty()) {
+        infoLibro += " | Fecha de devolución: " + devolucion;
     }
+
+    return infoLibro;
+}
 }

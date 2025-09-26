@@ -7,7 +7,7 @@ public class ProductoCafeteria{
     //Constructores
     public ProductoCafeteria(String producto, int id, double precio, String categoria){
         this.producto = producto;
-        this.id = id;
+        this.id = contadorIds++;
         this.precio = precio;
         this.categoria = categoria;
     }

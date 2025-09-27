@@ -2,10 +2,15 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Scanner;
 
-public class administrarTienda{
-	private Map<Integer, Libro> catalogoLibros = new HashMap<>();
-	public Map<Integer, ProductoCafeteria> menuCafeteria = new HashMap<>();
-	Scanner sc = new Scanner(System.in);
+public class administrarTienda {
+    private Map<Integer, Libro> catalogoLibros;
+    private Map<Integer, ProductoCafeteria> menuCafeteria;
+    private Scanner sc = new Scanner(System.in);
+
+    public administrarTienda(Map<Integer, Libro> catalogoLibros, Map<Integer, ProductoCafeteria> menuCafeteria) {
+        this.catalogoLibros = catalogoLibros;
+        this.menuCafeteria = menuCafeteria;
+    }
 
 	public void menuAdmin(){
 		int opcEmpleado;

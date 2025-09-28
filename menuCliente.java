@@ -1,118 +1,193 @@
 import java.util.Map;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import java.util.Scanner;
 
-public class menuCliente {
+public class menuCliente{
 
     private Map<Integer, Libro> catalogoLibros;
     private Map<Integer, ProductoCafeteria> menuCafeteria;
-    private Scanner escaner;
-    private Visita visitaActual;  // Nuevo atributo: referencia a la visita en curso
+    private Map<Integer, Cliente> listaClientes;
+    private List<Visita> visitas;
+    private Set<String> clientesEmail;
+    private Set<String> clientesTele;
 
-    // Constructor modificado: ahora recibe la visita activa además de los catálogos
+    private Scanner escaner = new Scanner(System.in);
+    private Visita visitaActual;
+
     public menuCliente(Map<Integer, Libro> catalogoLibros, 
-                      Map<Integer, ProductoCafeteria> menuCafeteria, 
-                      Scanner escaner, 
-                      Visita visitaActual) {
+                      Map<Integer, ProductoCafeteria> menuCafeteria,
+                      Map<Integer, Cliente> listaClientes,
+                      List<Visita> visitas,
+                      Set<String> clientesEmail,
+                      Set<String> clientesTele){
         this.catalogoLibros = catalogoLibros;
         this.menuCafeteria = menuCafeteria;
-        this.escaner = escaner;
-        this.visitaActual = visitaActual;  // Guardar la visita actual para usarla en todos los métodos
+        this.listaClientes = listaClientes;
+        this.visitas = visitas;
+        this.clientesEmail = clientesEmail;
+        this.clientesTele = clientesTele;
     }
 
-    // Método sin cambios: muestra todos los libros disponibles
-    public void mostrarLibros() {
-        System.out.println("\nCatálogo de Libros");
-        for (Libro libro : catalogoLibros.values()) {
+    public void opcionesCliente(){
+        System.out.println("\nMenú de Clientes");
+        System.out.println("- Clientes existentes -\n");
+        for(Cliente clientesActuales : listaClientes.values()){
+            System.out.println("ID: " + clientesActuales.getId() + ", " + clientesActuales.getNombre());
+        }
+
+        System.out.print("Ingrese su ID (o escriba '0' para registrarse): ");
+        
+        int idCliente = escaner.nextInt();
+        escaner.nextLine();
+
+        if(idCliente == 0){
+            registrarNuevoCliente();
+            return;
+        }
+
+        if(listaClientes.containsKey(idCliente)){
+            Cliente clienteActual = listaClientes.get(idCliente);
+            System.out.println("Bienvenido: " + clienteActual.getNombre());
+            iniciarVisita(clienteActual);
+        } else {
+            System.out.println("Cliente no registrado.");
+        }
+    }
+
+    public void registrarNuevoCliente(){
+        System.out.print("\nNombre: ");
+        String nombre = escaner.nextLine();
+
+        String correo;
+        do{
+            System.out.print("Correo: ");
+            correo = escaner.nextLine();
+
+            if(clientesEmail.contains(correo)){
+                System.out.println("Ya hay un cliente asociado al correo. Ingrese otro.");
+            }
+        } while(clientesEmail.contains(correo));
+        clientesEmail.add(correo);
+
+        String telefono;
+        do{
+            System.out.print("Teléfono: ");
+            telefono = escaner.nextLine();
+
+            if(clientesTele.contains(telefono)){
+                System.out.println("Ya hay un cliente asociado al telefono. Ingrese otro.");
+            }
+        } while(clientesTele.contains(telefono));
+        clientesTele.add(telefono);
+
+        Cliente nuevo = new Cliente(nombre,correo,telefono);
+        listaClientes.put(nuevo.getId(),nuevo);
+        System.out.println("Registro exitoso. Su ID es: " + nuevo.getId());
+    }
+
+    public void iniciarVisita(Cliente cliente){
+        String fechaActual = obtenerFechaActual();
+        visitaActual = new Visita(cliente,fechaActual);
+        
+        System.out.println("\nNueva visita creada - Fecha: " + fechaActual);
+        
+        boolean continuar = true;
+
+        while(continuar){
+            System.out.println("\nBienvenido a la Cafetería, estas son nuestras opciones:");
+            System.out.println("1. Ver catálogo de libros");
+            System.out.println("2. Comprar libro");
+            System.out.println("3. Rentar libro");
+            System.out.println("4. Ver menú de cafetería");
+            System.out.println("5. Comprar producto de cafetería");
+            System.out.println("6. Ver resumen de mi visita");
+            System.out.println("7. Finalizar visita y salir");
+            System.out.print("Elija una opción: ");
+
+            int opcion = escaner.nextInt();
+            escaner.nextLine();
+
+            switch(opcion){
+                case 1 -> mostrarLibros();
+                case 2 -> comprarLibro();
+                case 3 -> rentarLibro();
+                case 4 -> mostrarCafeteria();
+                case 5 -> comprarProducto();
+                case 6 -> visitaActual.mostrarDetalles();
+                case 7 -> { 
+                    System.out.println("\n- Visita Terminada -");
+                    visitaActual.finalizarVisita();
+                    visitas.add(visitaActual);
+                    
+                    System.out.println("Total gastado: $" + visitaActual.getTotal());
+                    System.out.println("Puntos ganados en esta visita: " + 
+                                     (int)(visitaActual.getTotal() / 50) + " puntos");
+                    System.out.println("Total puntos acumulados: " + cliente.getPuntos());
+                    System.out.println("Gracias por su visita, " + cliente.getNombre() + ", vuelva pronto c:");
+                    
+                    continuar = false;
+                }
+                default -> System.out.println("Opción inválida");
+            }
+        }
+    }
+
+    public void mostrarLibros(){
+        System.out.println("\n- Catálogo de Libros -");
+        for (Libro libro : catalogoLibros.values()){
+            System.out.print("\n");
             System.out.println(libro);
         }
     }
 
-    // MÉTODO MODIFICADO: Ahora usa el sistema de visitas en lugar de cambiar estado directamente
-    public void comprarLibro() {
+    public void comprarLibro(){
         mostrarLibros();
         System.out.print("Ingrese el ID del libro a comprar: ");
-
-        // Validación de entrada numérica
-        if (!escaner.hasNextInt()) {
-            System.out.println("ID inválido");
-            escaner.nextLine();
-            return;
-        }
-
         int idLibro = escaner.nextInt();
+
         escaner.nextLine();
 
-        // Verificar si el libro existe en el catálogo
-        if (catalogoLibros.containsKey(idLibro)) {
+        if(catalogoLibros.containsKey(idLibro)){
             Libro libro = catalogoLibros.get(idLibro);
-            if (libro.estaDisponible()) {
-                // CAMBIO PRINCIPAL: Usar el sistema de visita en lugar de modificar estado manualmente
+            if(libro.estaDisponible()){
+                libro.marcarNoDisponible();
                 visitaActual.agregarLibroComprado(libro);
-                System.out.println("✓ Libro agregado a tu visita - Se procesará al finalizar");
+                visitaActual.calcularTotal();
+                System.out.println("Libro agregado a tu carrito.");
             } else {
-                System.out.println("El libro no está disponible");
+                System.out.println("El libro no está disponible.");
             }
         } else {
-            System.out.println("ID no encontrado");
+            System.out.println("ID no encontrado.");
         }
     }
 
-    // Método sin cambios: muestra el menú de cafetería
-    public void mostrarCafeteria() {
-        System.out.println("\nMenú de Cafetería");
-        for (ProductoCafeteria producto : menuCafeteria.values()) {
-            System.out.println(producto);
-        }
-    }
-
-    // MÉTODO MODIFICADO: Ahora agrega productos a la visita actual
-    public void comprarProducto() {
-        mostrarCafeteria();
-        System.out.print("Ingrese el ID del producto a comprar: ");
-
-        // Validación de entrada numérica
-        if (!escaner.hasNextInt()) {
-            System.out.println("ID inválido");
-            escaner.nextLine();
-            return;
-        }
-
-        int idProd = escaner.nextInt();
-        escaner.nextLine();
-
-        // Verificar si el producto existe en el menú
-        if (menuCafeteria.containsKey(idProd)) {
-            ProductoCafeteria prod = menuCafeteria.get(idProd);
-            // CAMBIO PRINCIPAL: Agregar producto a la visita actual
-            visitaActual.agregarProducto(prod);
-            System.out.println("✓ Producto agregado a tu visita");
-        } else {
-            System.out.println("ID no encontrado");
-        }
-    }
-
-    // NUEVO MÉTODO: Permite rentar libros usando el sistema de visitas
     public void rentarLibro() {
         mostrarLibros();
         System.out.print("Ingrese el ID del libro a rentar: ");
-
-        // Validación de entrada numérica
-        if (!escaner.hasNextInt()) {
-            System.out.println("ID inválido");
-            escaner.nextLine();
-            return;
-        }
-
         int idLibro = escaner.nextInt();
+
         escaner.nextLine();
 
-        // Verificar si el libro existe y está disponible
         if (catalogoLibros.containsKey(idLibro)) {
             Libro libro = catalogoLibros.get(idLibro);
-            if (libro.estaDisponible()) {
-                // USAR EL SISTEMA DE RENTA DE LA VISITA
+            if(libro.estaDisponible()){
+                libro.marcarNoDisponible();
+                String fechaEntrega = fechaDevolucion();
+
+                System.out.println("Libro rentado / Tiene 7 días.");
+                System.out.println("Devolver el día: " + fechaEntrega);
+                libro.setDevolucion(fechaEntrega);
                 visitaActual.agregarLibroRentado(libro);
-                System.out.println("Libro rentado - Devolver en 7 días");
+                visitaActual.calcularTotal();
             } else {
                 System.out.println("El libro no está disponible para renta");
             }
@@ -121,24 +196,43 @@ public class menuCliente {
         }
     }
 
-    // NUEVO MÉTODO: Muestra un resumen de la visita actual con todos los detalles
-    public void verResumenVisita() {
-        System.out.println("\n--- RESUMEN DE TU VISITA ACTUAL ---");
-        System.out.println("Cliente: " + visitaActual.getCliente().getNombre());
-        System.out.println("Fecha: " + visitaActual.getFecha());
-        System.out.println("Libros comprados: " + visitaActual.getCantidadLibrosComprados());
-        System.out.println("Libros rentados: " + visitaActual.getCantidadLibrosRentados());
-        System.out.println("Productos consumidos: " + visitaActual.getCantidadProductosConsumidos());
-        System.out.println("Total parcial: $" + visitaActual.getTotal());
-        
-        // Mostrar detalles específicos si hay items en la visita
-        if (visitaActual.getCantidadLibrosComprados() > 0 || 
-            visitaActual.getCantidadLibrosRentados() > 0 || 
-            visitaActual.getCantidadProductosConsumidos() > 0) {
-            System.out.println("\n--- Detalles de tu visita ---");
-            visitaActual.mostrarDetalles();  // Usar el método de la clase Visita
-        } else {
-            System.out.println("Aún no has agregado items a tu visita.");
+    public void mostrarCafeteria(){
+        System.out.println("\n- Menú de Cafetería -");
+        for (ProductoCafeteria producto : menuCafeteria.values()) {
+            System.out.println(producto);
+            System.out.print("\n");
         }
+    }
+
+    public void comprarProducto(){
+        mostrarCafeteria();
+        System.out.print("Ingrese el ID del producto a comprar: ");
+
+        int idProd = escaner.nextInt();
+        escaner.nextLine();
+
+        if (menuCafeteria.containsKey(idProd)) {
+            ProductoCafeteria prod = menuCafeteria.get(idProd);
+            visitaActual.agregarProducto(prod);
+            visitaActual.calcularTotal();
+            System.out.println("Producto añadido a tu carrito.");
+        } else {
+            System.out.println("ID no encontrado.");
+        }
+    }
+
+    public String obtenerFechaActual(){
+        LocalDate hoy = LocalDate.now();
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String fechaRegistro = formato.format(hoy);
+        return fechaRegistro;
+    }
+
+    public String fechaDevolucion(){
+        LocalDate hoy = LocalDate.now();
+        LocalDate sigSemana = hoy.plusDays(7);
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String devolucion = formato.format(sigSemana);
+        return devolucion;
     }
 }

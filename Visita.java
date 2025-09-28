@@ -52,7 +52,7 @@ public class Visita{
 			double costoRenta = libro.getPrecio() * 0.10;
 			total += costoRenta;
 		}
-		System.out.println("Total calculado: $%.2f%n" + total);
+		System.out.println("Total calculado: $%.2f%n", total);
 	}
 
 	public void aplicarPuntosCliente(){

@@ -28,8 +28,8 @@ public class menuPrincipal{
             clientesFieles();
         }
 
-        administrarTienda admin = null;
-        menuCliente accionesCliente = null;
+        administrarTienda admin = new administrarTienda(catalogoLibros, menuCafeteria);
+        menuCliente accionesCliente = new menuCliente(catalogoLibros, menuCafeteria, listaClientes, visitas, clientesEmail, clientesTele);
 
         do{
             System.out.println("\nBienvenido a Café-Libreria 'La Ingeniería Indefinida'");
@@ -43,7 +43,6 @@ public class menuPrincipal{
 
             switch(opcion){
                 case 1:
-                    accionesCliente = new menuCliente(catalogoLibros, menuCafeteria, listaClientes, visitas, clientesEmail, clientesTele);
                     accionesCliente.opcionesCliente();
                     break;
                 case 2:
@@ -51,7 +50,6 @@ public class menuPrincipal{
                     String clave = escaner.nextLine();
 
                     if(clave.equals("CafeFI")){
-                        admin = new administrarTienda(catalogoLibros, menuCafeteria);
                         admin.menuAdmin();
                     } else {
                         System.out.println("Clave incorrecta.");

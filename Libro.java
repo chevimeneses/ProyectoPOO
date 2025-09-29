@@ -6,7 +6,6 @@ public class Libro{
     private int id;
     private double precio;
     private boolean estado;
-    private String devolucion;
     
     private static int contadorIds = 1;
     
@@ -17,7 +16,6 @@ public class Libro{
         this.id = contadorIds++;
         this.precio = precio;
         this.estado = estado;
-        this.devolucion = "";
     }
 
     public Libro(String titulo, String autor, String genero){
@@ -27,7 +25,6 @@ public class Libro{
         this.id = contadorIds++;
         this.precio = 149.99;
         this.estado = true;
-        this.devolucion = "";
     }
     
     public String getTitulo(){
@@ -54,9 +51,6 @@ public class Libro{
         return estado;
     }
 
-    public String getDevolucion(){
-        return devolucion;
-    }
     
     public void setTitulo(String titulo){
         this.titulo = titulo;
@@ -76,10 +70,6 @@ public class Libro{
 
     public void setEstado(boolean estado){
         this.estado = estado;
-    }
-
-    public void setDevolucion(String devolucion){
-        this.devolucion = devolucion;
     }
 
     public void marcarDisponible(){
@@ -103,9 +93,6 @@ public class Libro{
             " | Precio: $" + precio +
             " | Estado: " + disponibilidad;
 
-        if(estado == false && devolucion.isEmpty() == false) {
-            infoLibro += " | Fecha de devolución: " + devolucion;
-        }
         return infoLibro;
     }
 }

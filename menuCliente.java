@@ -124,13 +124,24 @@ public class menuCliente{
                 case 6 -> visitaActual.mostrarDetalles();
                 case 7 -> { 
                     System.out.println("\n- Visita Terminada -");
-                    visitaActual.finalizarVisita();
+
+                    boolean aplicarPuntos = false;
+                    int puntosCliente = cliente.getPuntos();
+
+                    if(puntosCliente >= 10){
+                        System.out.println("Puntos actuales: " + puntosCliente);
+                        System.out.println("Cada 10 puntos representa un 10% de descuento.");
+                        System.out.print("1)Sí\n2)No\n¿Desea aplicar 10 puntos?: ");
+                        int aplicar = escaner.nextInt();
+
+                        if(aplicar == 1){
+                            aplicarPuntos = visitaActual.puntosDescuento(10);
+                        } 
+                    }
+
+                    visitaActual.finalizarVisita(aplicarPuntos);
                     visitas.add(visitaActual);
-                    
-                    System.out.println("Total gastado: $" + visitaActual.getTotal());
-                    System.out.println("Puntos ganados en esta visita: " + 
-                                     (int)(visitaActual.getTotal() / 50) + " puntos");
-                    System.out.println("Total puntos acumulados: " + cliente.getPuntos());
+        
                     System.out.println("Gracias por su visita, " + cliente.getNombre() + ", vuelva pronto c:");
                     
                     continuar = false;
@@ -181,11 +192,7 @@ public class menuCliente{
             Libro libro = catalogoLibros.get(idLibro);
             if(libro.estaDisponible()){
                 libro.marcarNoDisponible();
-                String fechaEntrega = fechaDevolucion();
 
-                System.out.println("Libro rentado / Tiene 7 días.");
-                System.out.println("Devolver el día: " + fechaEntrega);
-                libro.setDevolucion(fechaEntrega);
                 visitaActual.agregarLibroRentado(libro);
                 visitaActual.calcularTotal();
             } else {
@@ -226,13 +233,5 @@ public class menuCliente{
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String fechaRegistro = formato.format(hoy);
         return fechaRegistro;
-    }
-
-    public String fechaDevolucion(){
-        LocalDate hoy = LocalDate.now();
-        LocalDate sigSemana = hoy.plusDays(7);
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        String devolucion = formato.format(sigSemana);
-        return devolucion;
     }
 }

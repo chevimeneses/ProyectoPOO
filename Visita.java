@@ -29,6 +29,16 @@ public class Visita{
 	    System.out.println("Libro rentado: " + libro.getTitulo());
  	}
 
+ 	public void devolverRentados(){
+		if(!librosRentados.isEmpty()){
+			for(Libro libro : librosRentados){
+				libro.marcarDisponible();
+				System.out.println("Ha devuelto el libro: " + libro.getTitulo());
+			}
+			librosRentados.clear();
+		}
+	}
+
 	public void agregarLibroComprado(Libro libro) {
 		librosComprados.add(libro); 
 		libro.marcarNoDisponible();  
@@ -55,15 +65,43 @@ public class Visita{
 		System.out.println("Total calculado: $" + String.format("%.2f",total));
 	}
 
+	public boolean puntosDescuento(int puntosUsados){
+		calcularTotal();
+		int puntosCliente = cliente.getPuntos();
+		if(puntosCliente >= puntosUsados){
+			double puntosDescuento = puntosUsados;
+			double descuentoTotal = total * (puntosDescuento/100.0);
+			total -= descuentoTotal;
+
+			boolean puntosSuficientes = cliente.usarPuntos(puntosUsados);
+			if(puntosSuficientes == true){
+				System.out.println("Se aplicó un descuento del " + (int)puntosDescuento + "%");
+				System.out.println("Se descontaron: " + String.format("%.2f",descuentoTotal) + "$");
+				System.out.println("Total: " + String.format("%.2f",total) + "$");
+			}
+
+			return true;
+
+		} else {
+			System.out.println("Se necesitan " + puntosUsados + " puntos.");
+			System.out.println("Usted tiene " + puntosCliente + " puntos.");
+			return false;
+		}
+	}
+
 	public void aplicarPuntosCliente(){
 	    cliente.ganarPuntos(total);
     	System.out.println("Puntos aplicados al cliente: " + (int)(total / 50) + " puntos");
 	}
-    
-	public void finalizarVisita(){
-    	calcularTotal();
-    	aplicarPuntosCliente();
-    	System.out.println("Visita #" + idVisita + " finalizada. Total: $" + total);
+
+	public void finalizarVisita(boolean puntosUsados){
+    	if(total > 0.0 && puntosUsados == false){
+    		aplicarPuntosCliente();
+    		calcularTotal();
+    	}
+
+    	devolverRentados();
+    	System.out.println("Visita #" + idVisita + " finalizada. Total: $" + String.format("%.2f",total));
 	}
     
 	public int getIdVisita() {
@@ -110,14 +148,14 @@ public class Visita{
     System.out.println("\n-Visita #" + idVisita + "-");
     System.out.println("Cliente: " + cliente.getNombre());
     System.out.println("Fecha: " + fecha);
-    System.out.println("Total: $" + total);
+    System.out.println("Total: $" + String.format("%.2f", total));
     System.out.println("\n- Libros Rentados -");
     
     if(librosRentados.isEmpty()){
 			System.out.println("No hay libros rentados");
 		} else {
 			for (Libro libro : librosRentados){
-				System.out.println("|" + libro.getTitulo() + " - $" + libro.getPrecio() * 0.1);
+				System.out.println("|" + libro.getTitulo() + " - $" + String.format("%.2f", libro.getPrecio() * 0.1));
      		}
 		}
         

@@ -67,14 +67,16 @@ public class Cliente{
 	}
 
 	public boolean usarPuntos(int puntosUsados){
-		if(puntosUsados <= this.puntos){
+		if(puntosUsados <= this.puntos && puntosUsados > 0){
 			this.puntos -= puntosUsados;
+			System.out.println("Puntos usados correctamente.");
 			return true;
+		} else {
+			System.out.println("Puntos insuficientes: " + puntos);
+			return false;
 		}
-		return false;
 	}
 	
-	//Para registrar una visita
 	public void registrarVisita(){
 		this.visitas++;
 	}

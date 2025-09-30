@@ -66,7 +66,7 @@ public class menuPrincipal{
     }
 
     private static void clientesFieles(){
-        Cliente cliente1 = new Cliente("Ignacio Matínez", "ignacio@email.com", "5512345678");
+        Cliente cliente1 = new Cliente("Ignacio Matínez", "ignacio@gmail.com", "5512345678");
         listaClientes.put(cliente1.getId(), cliente1);
         clientesEmail.add(cliente1.getEmail());
         clientesTele.add(cliente1.getTelefono());

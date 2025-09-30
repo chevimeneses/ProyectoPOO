@@ -21,7 +21,7 @@ public class administrarTienda{
 			System.out.println("5)Agregar Productos de Cafetería\n6)Eliminar Producto"
 				+ "\n7)Ver Menú de Cafetería\n8)Cambiar Producto");
 			System.out.println("9)Salir");
-			System.out.print("Escoja la acción a modificar: ");
+			System.out.print("Escoja la acción a realizar: ");
 			opcEmpleado = escaner.nextInt();
 			escaner.nextLine();
 

@@ -154,7 +154,6 @@ public class menuCliente{
     public void mostrarLibros(){
         System.out.println("\n- Catálogo de Libros -");
         for (Libro libro : catalogoLibros.values()){
-            System.out.print("\n");
             System.out.println(libro);
         }
     }
@@ -207,7 +206,6 @@ public class menuCliente{
         System.out.println("\n- Menú de Cafetería -");
         for (ProductoCafeteria producto : menuCafeteria.values()) {
             System.out.println(producto);
-            System.out.print("\n");
         }
     }
 

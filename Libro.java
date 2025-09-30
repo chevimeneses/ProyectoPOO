@@ -87,7 +87,7 @@ public class Libro{
     public String toString() {
         String disponibilidad = estado ? "Disponible" : "No disponible";
         
-        String infoLibro = "Libro ID#" + id + ": " + titulo +
+        String infoLibro = "| Libro ID#" + id + ": " + titulo +
             " | Autor: " + autor +
             " | Género: " + genero +
             " | Precio: $" + precio +

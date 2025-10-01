@@ -10,6 +10,14 @@ import java.time.format.DateTimeFormatter;
 
 import java.util.Scanner;
 
+/**
+ * Gestiona la interfaz de usuario para las operaciones de clientes
+ * Controla el flujo de atención al cliente y procesamiento de visitas
+ * 
+ * @author Equipo 4
+ * @version 1.0
+ * @since 2025
+ */
 public class menuCliente{
 
     private Map<Integer, Libro> catalogoLibros;
@@ -22,6 +30,16 @@ public class menuCliente{
     private Scanner escaner = new Scanner(System.in);
     private Visita visitaActual;
 
+    /**
+     * Constructor que inicializa el menú de cliente con todas las colecciones necesarias para su correcto funcionamiento
+     * 
+     * @param catalogoLibros  Mapa del catálogo de libros disponibles
+     * @param menuCafeteria   Mapa del menú de productos de cafetería
+     * @param listaClientes   Mapa de clientes registrados
+     * @param visitas         Lista del historial de visitas
+     * @param clientesEmail   Set de emails únicos para validación
+     * @param clientesTele    Set de teléfonos únicos para validación
+     */
     public menuCliente(Map<Integer, Libro> catalogoLibros, 
                       Map<Integer, ProductoCafeteria> menuCafeteria,
                       Map<Integer, Cliente> listaClientes,
@@ -36,6 +54,10 @@ public class menuCliente{
         this.clientesTele = clientesTele;
     }
 
+    /**
+     * Muestra las opciones principales para clientes y gestiona el acceso
+     * Permite login de clientes existentes o registro de nuevos clientes
+     */
     public void opcionesCliente(){
         System.out.println("\nMenú de Clientes");
         System.out.println("- Clientes existentes -\n");
@@ -62,6 +84,10 @@ public class menuCliente{
         }
     }
 
+    /**
+     * Registra un nuevo cliente en el sistema con validación de datos únicos.
+     * Valida que email y teléfono no estén previamente registrados.
+     */
     public void registrarNuevoCliente(){
         System.out.print("\nNombre: ");
         String nombre = escaner.nextLine();
@@ -93,6 +119,12 @@ public class menuCliente{
         System.out.println("Registro exitoso. Su ID es: " + nuevo.getId());
     }
 
+    /**
+     * Inicia y gestiona una visita completa para un cliente
+     * Crea una nueva visita y presenta el menú de opciones disponibles
+     * 
+     * @param cliente Cliente que realiza la visita
+     */
     public void iniciarVisita(Cliente cliente){
         String fechaActual = obtenerFechaActual();
         visitaActual = new Visita(cliente,fechaActual);
@@ -151,6 +183,10 @@ public class menuCliente{
         }
     }
 
+    /**
+     * Muestra el catálogo completo de libros disponibles en el sistema
+     * Incluye información de ID, título, autor, género, precio y estado
+     */
     public void mostrarLibros(){
         System.out.println("\n- Catálogo de Libros -");
         for (Libro libro : catalogoLibros.values()){
@@ -158,6 +194,10 @@ public class menuCliente{
         }
     }
 
+    /**
+     * Procesa la compra de un libro por parte del cliente
+     * Valida disponibilidad y agrega el libro a la visita actual
+     */
     public void comprarLibro(){
         mostrarLibros();
         System.out.print("Ingrese el ID del libro a comprar: ");
@@ -180,6 +220,10 @@ public class menuCliente{
         }
     }
 
+    /**
+     * Procesa la renta de un libro por parte del cliente
+     * Aplica el costo del 10% del precio y gestiona la disponibilidad
+     */
     public void rentarLibro() {
         mostrarLibros();
         System.out.print("Ingrese el ID del libro a rentar: ");
@@ -202,6 +246,10 @@ public class menuCliente{
         }
     }
 
+    /**
+     * Muestra el menú completo de productos de cafetería disponibles
+     * Incluye información de ID, nombre, precio y categoría de cada producto
+     */
     public void mostrarCafeteria(){
         System.out.println("\n- Menú de Cafetería -");
         for (ProductoCafeteria producto : menuCafeteria.values()) {
@@ -209,6 +257,10 @@ public class menuCliente{
         }
     }
 
+    /**
+     * Procesa la compra de un producto de cafetería
+     * Agrega el producto a la visita actual del cliente
+     */
     public void comprarProducto(){
         mostrarCafeteria();
         System.out.print("Ingrese el ID del producto a comprar: ");
@@ -226,6 +278,11 @@ public class menuCliente{
         }
     }
 
+    /**
+     * Obtiene la fecha actual formateada para registrar visitas
+     * 
+     * @return String con la fecha actual en formato "dd/MM/yyyy"
+     */
     public String obtenerFechaActual(){
         LocalDate hoy = LocalDate.now();
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");

@@ -7,6 +7,14 @@ import java.util.HashSet;
 
 import java.util.Scanner;
 
+/**
+ * Clase principal que inicia el sistema y gestiona el flujo general de la aplicación
+ * Coordina los diferentes módulos (cliente y empleado) del sistema
+ * 
+ * @author Equipo 4
+ * @version 1.0
+ * @since 2025
+ */
 public class menuPrincipal{
 
     private static Map<Integer, Libro> catalogoLibros = new HashMap<>();
@@ -16,6 +24,12 @@ public class menuPrincipal{
     private static Set<String> clientesEmail = new HashSet<>();
     private static Set<String> clientesTele = new HashSet<>();
 
+    /**
+     * Método principal que inicia la ejecución del sistema
+     * Carga datos iniciales y presenta el menú principal
+     * 
+     *
+     */
     public static void main(String[] args){
         Scanner escaner = new Scanner(System.in);
         int opcion;
@@ -65,6 +79,10 @@ public class menuPrincipal{
         } while(opcion != 3);
     }
 
+    /**
+     * Registra clientes de ejemplo para pruebas y demostración del sistema
+     * Se ejecuta automáticamente al iniciar el sistema
+     */
     private static void clientesFieles(){
         Cliente cliente1 = new Cliente("Ignacio Matínez", "ignacio@gmail.com", "5512345678");
         listaClientes.put(cliente1.getId(), cliente1);
@@ -77,6 +95,10 @@ public class menuPrincipal{
         clientesTele.add(cliente2.getTelefono());
     }
 
+    /**
+     * Inicializa el catálogo con libros y productos de ejemplo para demostración
+     * Se ejecuta automáticamente al iniciar el sistema
+     */
     public static void productosIniciales(){
         Libro libro1 = new Libro("Cien años de soledad", "Gabriel García Márquez", "Novela");
         catalogoLibros.put(libro1.getId(),libro1); 

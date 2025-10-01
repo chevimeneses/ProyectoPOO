@@ -2,16 +2,34 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Scanner;
 
+/**
+ * Gestiona las operaciones administrativas y de mantenimiento del sistema
+ * Proporciona funcionalidades (Crear, Leer, Actualizar, Borrar) para libros y productos de cafetería
+ * 
+ * @author Equipo 4
+ * @version 1.0
+ * @since 2025
+ */
 public class administrarTienda{
     private Map<Integer, Libro> catalogoLibros;
     private Map<Integer, ProductoCafeteria> menuCafeteria;
     private Scanner escaner = new Scanner(System.in);
 
+	/**
+     * Constructor que inicializa el administrador con los catálogos existentes
+     * 
+     * @param catalogoLibros  Mapa del catálogo de libros
+     * @param menuCafeteria   Mapa del menú de cafetería
+     */
     public administrarTienda(Map<Integer, Libro> catalogoLibros, Map<Integer, ProductoCafeteria> menuCafeteria){
         this.catalogoLibros = catalogoLibros;
         this.menuCafeteria = menuCafeteria;
     }
 
+	/**
+    * Muestra el menú principal de administración con todas las opciones disponibles
+    * Permite navegar entre las diferentes funcionalidades de este mismo
+    */
 	public void menuAdmin(){
 		int opcEmpleado;
 		do{
@@ -40,6 +58,10 @@ public class administrarTienda{
 		} while(opcEmpleado != 9);
 	}
 
+	/**
+    * Agrega un nuevo libro al catálogo solicitando todos los datos  e información necesarios
+    * El libro se crea automáticamente con el estado de dispoible
+    */
 	public void anidarLibro(){
 		System.out.print("\nIngrese el nombre del libro: ");
 		String nombreLibro = escaner.nextLine();
@@ -58,6 +80,10 @@ public class administrarTienda{
 		catalogoLibros.put(libroNuevo.getId(), libroNuevo);
 	}
 
+	/**
+    * Elimina un libro del catálogo mediante su ID
+    * Valida la existencia del libro antes de eliminarlo
+    */
 	public void retirarLibro(){
 		if(catalogoLibros.isEmpty()){
 			System.out.println("\nLa colección de libros se encuentra vacía.");
@@ -77,6 +103,9 @@ public class administrarTienda{
 		System.out.println("Libro retirado exitosamente.");
 	}
 
+	/**
+    * Muestra todos los libros existentes en el catálogo con su información completa
+    */
 	public void verLibros(){
 		if(catalogoLibros.isEmpty()){
 			System.out.println("\nLa colección de libros se encuentra vacía.");
@@ -90,6 +119,10 @@ public class administrarTienda{
 		}
 	}
 
+	/**
+    * Permite editar la información de un libro existente
+    * Ofrece opciones para modificar título, autor, género o precio
+    */
 	public void editarLibro(){
 		if(catalogoLibros.isEmpty()){
 			System.out.println("\nLa colección de libros se encuentra vacía.");
@@ -151,6 +184,10 @@ public class administrarTienda{
 		} while(opcEditar != 5);
 	}
 
+	/**
+    * Agrega un nuevo producto al menú de cafetería solicitando nombre, categoría y precio
+    * Valida que el precio sea mayor a cero antes de crear el producto
+    */
 	public void anidarProducto(){
 		System.out.print("\nIngrese el nombre del producto: ");
 		String cafeProducto = escaner.nextLine();
@@ -174,6 +211,10 @@ public class administrarTienda{
 		menuCafeteria.put(productoNuevo.getId(), productoNuevo);
 	}
 
+	/**
+    * Elimina un producto del menú de cafetería mediante su ID
+    * Valida que el producto exista antes de eliminarlo
+    */
 	public void eliminarProducto(){
 		if(menuCafeteria.isEmpty()){
 			System.out.println("\nSin elementos en cafetería.");
@@ -193,6 +234,10 @@ public class administrarTienda{
 		System.out.println("Producto retirado exitosamente.");
 	}
 
+	/**
+    * Muestra todos los productos existentes en el menú de cafetería
+    * Informa si no hay productos registrados
+    */
 	public void verProductos(){
 		if(menuCafeteria.isEmpty()){
 			System.out.println("\nSin productos añadidos.");
@@ -205,6 +250,10 @@ public class administrarTienda{
 		}
 	}
 
+	/**
+    * Permite editar la información de un producto existente en el menú de cafetería
+    * Ofrece opciones para modificar nombre, categoría o precio
+    */
 	public void editarProducto(){
 		if(menuCafeteria.isEmpty()){
         	System.out.println("\nSin productos añadidos.");
